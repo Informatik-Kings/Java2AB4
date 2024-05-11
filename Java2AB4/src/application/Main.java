@@ -1,26 +1,62 @@
 package application;
 	
+import exception.InvalidSourceException;
+import exception.LoggerFX;
 import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
+/**
+ * 
+ * TODO COMMENT
+ *
+ * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
+ */
+public class Main extends Application
+{
 
-public class Main extends Application {
-	@Override
-	public void start(Stage primaryStage) {
-		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
+   /**
+    * 
+    * Startet die JavaFX-Runtime.
+    *
+    * @param args Keine Verwendung.
+    */
+   public static void main(String[] args)
+   {
+      launch(args);
+   }
+
+   /**
+    * Wird durch JavaFX-Runtime nach dem Aufruf der init-Methode aufgerufen.
+    * Initialisert die primaryStage mit einer {@link ExitBorderPane}.
+    */
+   @Override
+   public void start(Stage primaryStage) throws InvalidSourceException
+   {
+      try
+      {
+         if(primaryStage == null) 
+         {
+            throw new InvalidSourceException("Main.start(Stage primaryStage): Ungültige Null-Referenz zu PrimaryStage!");
+         }
+
+         ExitBorderPane root = new ExitBorderPane();
+         Scene scene = new Scene(root,600,300);
+         primaryStage.setTitle("Main");
+         primaryStage.setScene(scene);
+         primaryStage.show();
+
+      }
+      catch (InvalidSourceException e)
+      {
+         Alert alert =
+               new Alert(AlertType.ERROR, "Unbekannter Fehler \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
+         alert.setResizable(true);
+         alert.showAndWait();
+         LoggerFX.log(e, getClass().getSimpleName());
+      }
+   }
 }
