@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * TODO COMMENT
+ * Main zum Testen der {@link MenuExitBorderPane}.
  *
  * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
  */
@@ -31,7 +31,7 @@ public class Main extends Application
 
    /**
     * Wird durch JavaFX-Runtime nach dem Aufruf der init-Methode aufgerufen.
-    * Initialisert die primaryStage mit einer {@link ExitBorderPane}.
+    * Initialisert die primaryStage mit einer {@link MenuExitBorderPane}.
     */
    @Override
    public void start(Stage primaryStage) throws InvalidSourceException
@@ -43,14 +43,14 @@ public class Main extends Application
             throw new InvalidSourceException("Main.start(Stage primaryStage): Ungültige Null-Referenz zu PrimaryStage!");
          }
 
-         ExitBorderPane root = new ExitBorderPane();
+         MenuExitBorderPane root = new MenuExitBorderPane();
          Scene scene = new Scene(root,600,300);
          primaryStage.setTitle("Main");
          primaryStage.setScene(scene);
          primaryStage.show();
 
       }
-      catch (InvalidSourceException e)
+      catch (Exception e)
       {
          Alert alert =
                new Alert(AlertType.ERROR, "Unbekannter Fehler \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
