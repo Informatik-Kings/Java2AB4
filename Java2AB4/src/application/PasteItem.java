@@ -3,9 +3,11 @@
  */
 package application;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.input.Clipboard;
+import javafx.scene.input.KeyCombination;
 
 /**
  * Klasse für das MenuItem, welches den Text aus einem Textfeld in die Zwischenablage ausschneidet.
@@ -13,9 +15,7 @@ import javafx.scene.input.Clipboard;
  * @author $Author:  Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe     
  */
 public class PasteItem extends MenuItem
-{
-   private TextField textfield;
-   
+{   
    /**
     * Erstellt ein MenuItem, welches den Text aus der Zwischenablage in das Textfeld einfügt.
     * 
@@ -23,17 +23,23 @@ public class PasteItem extends MenuItem
     */
    public PasteItem(TextField textfield)
    {
-      super("Einfügen");
+      super("_Einfügen");
       if (textfield == null)      
          throw new IllegalArgumentException("CopyItem: Es wurde kein Textfeld übergeben!");
       
-      this.textfield = textfield;
-      setOnAction(e -> paste());
+      this.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent event) {
+             textfield.paste();
+         }
+     });
+      
+      this.setAccelerator(KeyCombination.keyCombination("shortcut+v"));
    }
    
    /**
     * Fügt den Text aus der Zwischenablage in das Textfeld an der Stelle von "Caret"(dem Strich) ein.
-    */
+    *//*
    private void paste() {
       Clipboard clipboard = Clipboard.getSystemClipboard();
       
@@ -46,5 +52,5 @@ public class PasteItem extends MenuItem
       }
       
       
-   }
+   }*/
 }

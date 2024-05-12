@@ -3,9 +3,13 @@
  */
 package application;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
 
 /**
  * MenuBar, welche die verschiedenen Menüfunktionen für das Textfeld bereitstellt.
@@ -13,7 +17,7 @@ import javafx.scene.control.TextField;
  * @author $Author:   Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
  */
 public class ApplicationMenuBar extends MenuBar
-{   
+{     
    public ApplicationMenuBar(TextField textfield)
    {
       if (textfield == null)
@@ -31,26 +35,55 @@ public class ApplicationMenuBar extends MenuBar
     */
    public class EditMenu extends Menu
    {
+      
+      private TextField textField;
+      private MenuItem cutItem;
+      private MenuItem copyItem;
+      private MenuItem pasteItem;
+      private MenuItem deleteItem;
+      private MenuItem selectAllItem;
+      
       public EditMenu(TextField textfield)
       {
-         super("Bearbeiten");
+         super("_Bearbeiten");
          if (textfield == null)
          {
             throw new IllegalArgumentException(
                   "ApplicationMenuBar(TextField textfield): textfield == null!");
          }
-         CopyItem copyItem = new CopyItem(textfield);
+         this.textField = textfield;
+         this.copyItem = new CopyItem(textfield);
          getItems().add(copyItem);
          
-         CutItem cutItem = new CutItem(textfield);
+         this.cutItem = new CutItem(textfield);
          getItems().add(cutItem);
          
-         PasteItem pasteItem = new PasteItem(textfield);
+         this.pasteItem = new PasteItem(textfield);
          getItems().add(pasteItem);
          
-         SelectAllItem selectAllItem = new SelectAllItem(textfield);
+         this.deleteItem = new DeleteItem(textfield);
+         getItems().add(deleteItem);
+         
+         this.selectAllItem = new SelectAllItem(textfield);
          getItems().add(selectAllItem);
          
+         setOnShown(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                updateMenuItems();
+            }
+        });
       }
+      
+      private void updateMenuItems() {
+         boolean selectedText = !textField.getSelectedText().isEmpty();
+         boolean clipboardText = Clipboard.getSystemClipboard().hasString();
+         
+         cutItem.setDisable(!selectedText);
+         copyItem.setDisable(!selectedText);
+         pasteItem.setDisable(!clipboardText);
+         deleteItem.setDisable(!selectedText);
+         selectAllItem.setDisable(textField.getText().isEmpty());
+     }
    }
 }

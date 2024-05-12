@@ -3,10 +3,11 @@
  */
 package application;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCombination;
 
 /**
  * Klasse für das MenuItem, welches den Text aus einem Textfeld in die Zwischenablage ausschneidet.
@@ -14,9 +15,7 @@ import javafx.scene.input.ClipboardContent;
  * @author $Author:  Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe     
  */
 public class CutItem extends MenuItem
-{
-   private TextField textfield;
-   
+{  
    /**
     * Erstellt ein MenuItem, welches den Text aus einem Textfeld in die
     * Zwischenablage ausscneidet.
@@ -25,17 +24,23 @@ public class CutItem extends MenuItem
     */
    public CutItem(TextField textfield)
    {
-      super("Ausschneiden");
+      super("_Ausschneiden");
       if (textfield == null)      
          throw new IllegalArgumentException("CutItem: Es wurde kein Textfeld übergeben!");
+     
+      this.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent event) {
+             textfield.cut();
+         }
+     });
       
-      this.textfield = textfield;
-      setOnAction(e -> cut());
+      this.setAccelerator(KeyCombination.keyCombination("shortcut+x"));
    }
-
    /**
     * Schneidet den markierten Text aus dem Textfeld in die Zwischenablage.
     */
+   /*
    private void cut() {
       Clipboard clipboard = Clipboard.getSystemClipboard();
       
@@ -52,4 +57,5 @@ public class CutItem extends MenuItem
       
       
    }
+    */
 }
