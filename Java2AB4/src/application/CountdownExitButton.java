@@ -1,12 +1,16 @@
 package application;
 
 import exception.InvalidSourceException;
+import exception.LoggerFX;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 
 /**
@@ -67,12 +71,18 @@ public class CountdownExitButton extends Button
       @Override
       public void handle(ActionEvent event)
       {
-         {
+         try{
             timeout--;
             setText("Exit["+timeout.toString()+"]");         
             if(timeout <= 0) {
                fire();
             }
+         }catch (Exception e) {
+            Alert alert =
+                  new Alert(AlertType.ERROR, "Fehler beim Countdown! \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
+            alert.setResizable(true);
+            alert.showAndWait();
+            LoggerFX.log(e, getClass().getSimpleName());
          }
 
       }
