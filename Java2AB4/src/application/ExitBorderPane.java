@@ -2,6 +2,7 @@ package application;
 
 import exception.InvalidSourceException;
 import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -18,10 +19,19 @@ public class ExitBorderPane extends BorderPane {
     * @throws InvalidSourceException
     */
    public ExitBorderPane() throws InvalidSourceException {
-      CountdownExitButton button = new CountdownExitButton(10);
       VBox vbox = new VBox();
+      
+      CountdownExitButton button = new CountdownExitButton(10);
+      button.setAlignment(Pos.TOP_CENTER);
       vbox.getChildren().add(button);
-      vbox.setAlignment(Pos.CENTER);
+      
+      TextField textfield = new TextField();
+      textfield.setAlignment(Pos.CENTER);
+      vbox.getChildren().add(textfield);
+      ApplicationMenuBar menuBar = new ApplicationMenuBar(textfield);
+      vbox.getChildren().add(menuBar);
+      
+      
       setCenter(vbox);
    }
 
