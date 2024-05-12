@@ -1,8 +1,10 @@
-/**
- * 
- */
-package application;
+package application.menu;
 
+import application.menu.item.CopyItem;
+import application.menu.item.CutItem;
+import application.menu.item.DeleteItem;
+import application.menu.item.PasteItem;
+import application.menu.item.SelectAllItem;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
@@ -14,7 +16,7 @@ import javafx.scene.input.Clipboard;
 /**
  * MenuBar, welche die verschiedenen Menüfunktionen für das Textfeld bereitstellt.
  *
- * @author $Author:   Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
+ * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
  */
 public class ApplicationMenuBar extends MenuBar
 {     
@@ -67,23 +69,22 @@ public class ApplicationMenuBar extends MenuBar
          this.selectAllItem = new SelectAllItem(textfield);
          getItems().add(selectAllItem);
          
-         setOnShown(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                updateMenuItems();
-            }
-        });
+         setOnShown(new UpdateMenuItemsEventHandler());
       }
       
-      private void updateMenuItems() {
-         boolean selectedText = !textField.getSelectedText().isEmpty();
-         boolean clipboardText = Clipboard.getSystemClipboard().hasString();
-         
-         cutItem.setDisable(!selectedText);
-         copyItem.setDisable(!selectedText);
-         pasteItem.setDisable(!clipboardText);
-         deleteItem.setDisable(!selectedText);
-         selectAllItem.setDisable(textField.getText().isEmpty());
-     }
+      private class UpdateMenuItemsEventHandler implements EventHandler<Event> {
+         @Override
+         public void handle(Event event) {
+             boolean selectedText = !textField.getSelectedText().isEmpty();
+             boolean clipboardText = Clipboard.getSystemClipboard().hasString();
+             
+             cutItem.setDisable(!selectedText);
+             copyItem.setDisable(!selectedText);
+             pasteItem.setDisable(!clipboardText);
+             deleteItem.setDisable(!selectedText);
+             selectAllItem.setDisable(textField.getText().isEmpty());
+         }
+      }
+      
    }
 }
