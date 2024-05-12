@@ -21,8 +21,9 @@ import javafx.util.Duration;
  */
 public class CountdownExitButton extends Button
 {
-   private Integer timeout;
+   private int timeout;
    private final static int DEFAULT_TIMEOUT = 5;
+   private final static String COUNTDOWN_FORMAT = "Exit[%d]";
 
    /**
     * Erstellt einen Button mit einem default Countdown von 5 Sekunden.
@@ -30,10 +31,10 @@ public class CountdownExitButton extends Button
    public CountdownExitButton()
    {
       timeout = DEFAULT_TIMEOUT;
-      setOnAction(e -> {Platform.exit();});
+      setOnAction(new CountdownButtonEventHandler());
       Timeline timeline = new Timeline();
       timeline.setCycleCount(Timeline.INDEFINITE);
-      setText("Exit["+timeout.toString()+"]");
+      setText(String.format(COUNTDOWN_FORMAT, timeout));
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1),
             (new CountdownEventHandler())));
       timeline.playFromStart();
@@ -51,10 +52,10 @@ public class CountdownExitButton extends Button
          throw new InvalidSourceException("CountdownExitButton(int timeout): timeout < 0!");
       }
       this.timeout = timeout;
-      setOnAction(e -> {Platform.exit();});
+      setOnAction(new CountdownButtonEventHandler());
       Timeline timeline = new Timeline();
       timeline.setCycleCount(Timeline.INDEFINITE);
-      setText("Exit["+this.timeout.toString()+"]");
+      setText(String.format(COUNTDOWN_FORMAT, this.timeout));
       timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1),
             (new CountdownEventHandler())));
       timeline.playFromStart();
@@ -71,22 +72,38 @@ public class CountdownExitButton extends Button
       @Override
       public void handle(ActionEvent event)
       {
-         try{
-            timeout--;
-            setText("Exit["+timeout.toString()+"]");         
-            if(timeout <= 0) {
-               fire();
-            }
+         timeout--;
+         setText(String.format(COUNTDOWN_FORMAT, timeout));        
+         if(timeout <= 0) {
+            fire();
+         }
+      }
+
+   }
+   
+   /**
+    * 
+    * Aktuallisiert den Countdown des Buttons und löst den Button nach dem Ablauf aus.
+    *
+    * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
+    */
+   public class CountdownButtonEventHandler implements EventHandler<ActionEvent> {
+
+      @Override
+      public void handle(ActionEvent event)
+      {
+         try {
+            Platform.exit();
          }catch (Exception e) {
             Alert alert =
-                  new Alert(AlertType.ERROR, "Fehler beim Countdown! \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
+                  new Alert(AlertType.ERROR, "Fehler beim Drücken des Exit Buttons! \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
             alert.setResizable(true);
             alert.showAndWait();
             LoggerFX.log(e, getClass().getSimpleName());
          }
-
+         
       }
 
-   }   
+   }
 
 }
