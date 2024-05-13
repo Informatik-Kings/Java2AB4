@@ -27,17 +27,11 @@ public class CountdownExitButton extends Button
 
    /**
     * Erstellt einen Button mit einem default Countdown von 5 Sekunden.
+    * @throws InvalidSourceException @see {@link CountdownExitButton#CountdownExitButton(int)}.
     */
-   public CountdownExitButton()
+   public CountdownExitButton() throws InvalidSourceException
    {
-      timeout = DEFAULT_TIMEOUT;
-      setOnAction(new CountdownButtonEventHandler());
-      Timeline timeline = new Timeline();
-      timeline.setCycleCount(Timeline.INDEFINITE);
-      setText(String.format(COUNTDOWN_FORMAT, timeout));
-      timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1),
-            (new CountdownEventHandler())));
-      timeline.playFromStart();
+      this(DEFAULT_TIMEOUT);
    }
 
    /**
