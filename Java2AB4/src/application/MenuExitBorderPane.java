@@ -5,7 +5,8 @@ import exception.InvalidSourceException;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * Beispiel Darstellung für {@link CountdownExitButton} und {@link ApplicationMenuBar}.
@@ -20,20 +21,18 @@ public class MenuExitBorderPane extends BorderPane {
     * @throws InvalidSourceException
     */
    public MenuExitBorderPane() throws InvalidSourceException {
-      VBox vbox = new VBox();
-      
-      CountdownExitButton button = new CountdownExitButton(60);
-      button.setAlignment(Pos.TOP_CENTER);
-      vbox.getChildren().add(button);
-      
+      HBox hbox = new HBox();
+
       TextField textfield = new TextField();
-      textfield.setAlignment(Pos.CENTER);
-      vbox.getChildren().add(textfield);
       ApplicationMenuBar menuBar = new ApplicationMenuBar(textfield);
-      vbox.getChildren().add(menuBar);
-      
-      
-      setCenter(vbox);
+      CountdownExitButton button = new CountdownExitButton(60);
+
+      HBox.setHgrow(textfield, Priority.ALWAYS); // Textfeld nimmt den verfügbaren Platz ein
+      hbox.getChildren().addAll(textfield, button);
+
+      setTop(menuBar);
+      setBottom(hbox);
+      button.setAlignment(Pos.BOTTOM_RIGHT);
    }
 
 }
