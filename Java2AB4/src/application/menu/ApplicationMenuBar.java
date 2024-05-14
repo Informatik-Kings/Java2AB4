@@ -5,12 +5,16 @@ import application.menu.item.CutItem;
 import application.menu.item.DeleteItem;
 import application.menu.item.PasteItem;
 import application.menu.item.SelectAllItem;
+import exception.LoggerFX;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.Clipboard;
 
 /**
@@ -30,21 +34,21 @@ public class ApplicationMenuBar extends MenuBar
       EditMenu menu = new EditMenu(textfield);
       this.getMenus().add(menu);
    }
-   
-   
+
+
    /**
     * EditMenu, welches die Menüpunkte für das Editieren von Text bereitstellt.
     */
    public class EditMenu extends Menu
    {
-      
+
       private TextField textField;
       private MenuItem cutItem;
       private MenuItem copyItem;
       private MenuItem pasteItem;
       private MenuItem deleteItem;
       private MenuItem selectAllItem;
-      
+
       public EditMenu(TextField textfield)
       {
          super("_Bearbeiten");
@@ -56,35 +60,43 @@ public class ApplicationMenuBar extends MenuBar
          this.textField = textfield;
          this.copyItem = new CopyItem(textfield);
          getItems().add(copyItem);
-         
+
          this.cutItem = new CutItem(textfield);
          getItems().add(cutItem);
-         
+
          this.pasteItem = new PasteItem(textfield);
          getItems().add(pasteItem);
-         
+
          this.deleteItem = new DeleteItem(textfield);
          getItems().add(deleteItem);
-         
+
          this.selectAllItem = new SelectAllItem(textfield);
          getItems().add(selectAllItem);
-         
+
          setOnShown(new UpdateMenuItemsEventHandler());
       }
-      
+
       private class UpdateMenuItemsEventHandler implements EventHandler<Event> {
          @Override
          public void handle(Event event) {
-             boolean selectedText = !textField.getSelectedText().isEmpty();
-             boolean clipboardText = Clipboard.getSystemClipboard().hasString();
-             
-             cutItem.setDisable(!selectedText);
-             copyItem.setDisable(!selectedText);
-             pasteItem.setDisable(!clipboardText);
-             deleteItem.setDisable(!selectedText);
-             selectAllItem.setDisable(textField.getText().isEmpty());
+            try {               
+               boolean selectedText = !textField.getSelectedText().isEmpty();
+               boolean clipboardText = Clipboard.getSystemClipboard().hasString();
+
+               cutItem.setDisable(!selectedText);
+               copyItem.setDisable(!selectedText);
+               pasteItem.setDisable(!clipboardText);
+               deleteItem.setDisable(!selectedText);
+               selectAllItem.setDisable(textField.getText().isEmpty());
+            }catch (Exception e) {
+               Alert alert =
+                     new Alert(AlertType.ERROR, "Fehler beim Updaten des Menu-Items! \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
+               alert.setResizable(true);
+               alert.showAndWait();
+               LoggerFX.log(e, getClass().getSimpleName());
+            }
          }
       }
-      
+
    }
 }

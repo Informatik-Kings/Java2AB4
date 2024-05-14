@@ -66,15 +66,23 @@ public class CountdownExitButton extends Button
       @Override
       public void handle(ActionEvent event)
       {
-         timeout--;
-         setText(String.format(COUNTDOWN_FORMAT, timeout));        
-         if(timeout <= 0) {
-            fire();
+         try {            
+            timeout--;
+            setText(String.format(COUNTDOWN_FORMAT, timeout));        
+            if(timeout <= 0) {
+               fire();
+            }
+         }catch (Exception e) {
+            Alert alert =
+                  new Alert(AlertType.ERROR, "Fehler beim Countdown! \nSenden Sie den Log an den Entwickler!", ButtonType.OK);
+            alert.setResizable(true);
+            alert.showAndWait();
+            LoggerFX.log(e, getClass().getSimpleName());
          }
       }
 
    }
-   
+
    /**
     * 
     * Aktuallisiert den Countdown des Buttons und löst den Button nach dem Ablauf aus.
@@ -95,7 +103,7 @@ public class CountdownExitButton extends Button
             alert.showAndWait();
             LoggerFX.log(e, getClass().getSimpleName());
          }
-         
+
       }
 
    }
