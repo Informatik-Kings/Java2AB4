@@ -36,7 +36,12 @@ public abstract class ApplicationMenuItem extends MenuItem
       if (textfield == null) {
          throw new IllegalArgumentException("MenuItem: Es wurde kein Textfeld übergeben!");
       }
-
+      if (menuItemName == null) {
+         throw new IllegalArgumentException("MenuItem: Es wurde kein Name übergeben!");
+      }
+      if (shortcut == null) {
+         throw new IllegalArgumentException("MenuItem: Es wurde kein Shortcut übergeben!");
+      }
       this.textfield = textfield;
 
       this.setOnAction(new ItemEventHandler());
