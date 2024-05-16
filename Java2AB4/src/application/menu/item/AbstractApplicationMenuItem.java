@@ -16,7 +16,7 @@ import javafx.scene.input.KeyCombination;
  * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe     
  */
 
-public abstract class ApplicationMenuItem extends MenuItem
+public abstract class AbstractApplicationMenuItem extends MenuItem
 {
 
    TextField textfield;
@@ -24,13 +24,13 @@ public abstract class ApplicationMenuItem extends MenuItem
    /**
     * 
     * Erstellt ein Menu-Item mit einem festgelegten Handler.
-    * Spezifische Aktion für Handler wird durch implementation von {@link ApplicationMenuItem#work()} festgelegt.
+    * Spezifische Aktion für Handler wird durch implementation von {@link AbstractApplicationMenuItem#work()} festgelegt.
     *
     * @param textfield Textfeld, auf welches die Aktionen vom Handler gelten sollen.  
     * @param menuItemName Anzeigename des Menu-Items.
     * @param shortcut Tastenkürzel zur Aktivierung der Menu-Items.
     */
-   public ApplicationMenuItem(TextField textfield, String menuItemName, String shortcut)
+   public AbstractApplicationMenuItem(TextField textfield, String menuItemName, String shortcut)
    {
       super(menuItemName);
       if (textfield == null) {
@@ -51,7 +51,7 @@ public abstract class ApplicationMenuItem extends MenuItem
 
    /**
     * 
-    * Handler welcher {@link ApplicationMenuItem#work()} als Aktion für Menu-Item festlegt.
+    * Handler welcher {@link AbstractApplicationMenuItem#work()} als Aktion für Menu-Item festlegt.
     *
     * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe
     */

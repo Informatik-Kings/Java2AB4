@@ -7,11 +7,11 @@ import javafx.scene.control.TextField;
  *
  * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe     
  */
-public class PasteItem extends ApplicationMenuItem
+public class PasteItem extends AbstractApplicationMenuItem
 { 
 
    /**
-    * @see {@link ApplicationMenuItem#ApplicationMenuItem(TextField, String, String)}.
+    * @see {@link AbstractApplicationMenuItem#ApplicationMenuItem(TextField, String, String)}.
     */
    public PasteItem(TextField textfield)
    {

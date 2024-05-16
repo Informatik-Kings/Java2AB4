@@ -7,11 +7,11 @@ import javafx.scene.control.TextField;
  *
  * @author Markus Suchalla, Cheng-Fu Ye, Dominik Schwabe     
  */
-public class CopyItem extends ApplicationMenuItem
+public class CopyItem extends AbstractApplicationMenuItem
 {
 
    /**
-    * @see {@link ApplicationMenuItem#ApplicationMenuItem(TextField, String, String)}.
+    * @see {@link AbstractApplicationMenuItem#ApplicationMenuItem(TextField, String, String)}.
     */
    public CopyItem(TextField textfield)
    {
